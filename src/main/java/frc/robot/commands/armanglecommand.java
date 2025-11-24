@@ -4,28 +4,32 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.XRPDrivetrain;
+import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ExampleCommand extends Command {
+public class armanglecommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final XRPDrivetrain m_subsystem;
+  private final Arm m_subsystem;
+  private final double m_angle;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExampleCommand(XRPDrivetrain subsystem) {
+  public armanglecommand(Arm subsystem, double angle ) {
     m_subsystem = subsystem;
+    m_angle = angle;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_subsystem.setAngle(m_angle);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -38,6 +42,6 @@ public class ExampleCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

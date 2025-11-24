@@ -6,15 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.armanglecommand;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.XRPDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.PS5Controller;
-import edu.wpi.first.wpilibj.xrp.XRPMotor;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.xrp.XRPServo;
+//import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
 
@@ -29,10 +26,10 @@ import edu.wpi.first.wpilibj.xrp.XRPServo;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final XRPDrivetrain m_xrpdrivetrain = new XRPDrivetrain();
-  private final PS4Controller m_controller = new PS4Controller(0);
-  
+  private final CommandXboxController m_controller = new CommandXboxController(0);
+  private final Arm m_arm = new Arm();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_xrpdrivetrain);
+ // private final ExampleCommand m_autoCommand = new ExampleCommand(m_xrpdrivetrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -48,6 +45,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_xrpdrivetrain.setDefaultCommand(getArcadeDriveCommand());
+    m_controller.button(3).onTrue(new armanglecommand(m_arm, 0));
+    m_controller.button(6).onTrue(new armanglecommand(m_arm, 90));
   }
      
   /**
@@ -55,10 +54,10 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+ /*  public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
-  }
+  } */
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(
         m_xrpdrivetrain, () -> -m_controller.getRawAxis(1), () -> -m_controller.getRawAxis(2));
